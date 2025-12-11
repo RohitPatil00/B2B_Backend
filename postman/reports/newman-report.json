@@ -1,0 +1,1320 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "hyderabad-backend-collection"
+    },
+    "item": [
+      {
+        "id": "d3266333-8893-4ab3-a1ad-04db0e1c63be",
+        "name": "Auth",
+        "item": [
+          {
+            "id": "f62dc670-c573-4bf7-801a-278503615536",
+            "name": "Login - Password",
+            "request": {
+              "url": {
+                "path": [
+                  "auth",
+                  "login",
+                  "password"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"password\": \"secret\"\n}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "4b6b9d4f-3c3e-4403-b8f9-20405d01c62d",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "  var data = pm.response.json();",
+                    "  pm.environment.set('jwt', data.accessToken);",
+                    "  pm.environment.set('userId', data.userId);",
+                    "}",
+                    ""
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "9a34a926-ea49-458e-bd22-0b7c5739b1a4",
+            "name": "OTP - Request",
+            "request": {
+              "url": {
+                "path": [
+                  "auth",
+                  "otp",
+                  "request"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"phoneNumber\": \"9999999999\"\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "b57f1a37-35de-4092-b547-d9901e299ffd",
+            "name": "OTP - Verify",
+            "request": {
+              "url": {
+                "path": [
+                  "auth",
+                  "otp",
+                  "verify"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"otp\": \"<paste-otp-here>\"\n}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "f1a6ed13-bde4-48e3-aba4-ef3f75a38aab",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "  var data = pm.response.json();",
+                    "  pm.environment.set('jwt', data.accessToken);",
+                    "  pm.environment.set('userId', data.userId);",
+                    "}",
+                    ""
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "a5bbc086-0bde-4d21-acb8-daca98a64716",
+            "name": "Register Shop",
+            "request": {
+              "url": {
+                "path": [
+                  "auth",
+                  "register-shop"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"phoneNumber\": \"9999990000\",\n  \"name\": \"Acme\",\n  \"email\": \"seller@example.com\",\n  \"businessName\": \"Acme Supplies\",\n  \"password\": \"sellerpass\"\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "d73b2d09-d236-416a-9757-5be107da27e2",
+            "name": "Me (Get current user)",
+            "request": {
+              "url": {
+                "path": [
+                  "auth",
+                  "me"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "7e4f2089-b531-43e4-875c-960c7ae30c38",
+        "name": "Categories",
+        "item": [
+          {
+            "id": "b5d36f89-1c80-421e-bff3-73cceb05c89e",
+            "name": "List Categories",
+            "request": {
+              "url": {
+                "path": [
+                  "catalog",
+                  "categories"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "b7261593-655c-4027-b67a-144bd5b7165b",
+            "name": "Get Subcategories",
+            "request": {
+              "url": {
+                "path": [
+                  "categories",
+                  "{{categoryId}}",
+                  "subcategories"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "b8cefaf4-7d33-4bc5-9783-565672d1c95e",
+        "name": "Products",
+        "item": [
+          {
+            "id": "ed37d137-e236-4ec7-8227-3eb8cae53b12",
+            "name": "List Products",
+            "request": {
+              "url": {
+                "path": [
+                  "catalog",
+                  "products"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "fa990975-3794-4964-a346-1bc706c5dec5",
+            "name": "Get Product",
+            "request": {
+              "url": {
+                "path": [
+                  "catalog",
+                  "products",
+                  "{{productId}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "0c69d353-0513-423d-b99b-aa8030d0ee9a",
+        "name": "Cart",
+        "item": [
+          {
+            "id": "e5a0fa2e-26aa-4a96-9497-2ac40a2fca24",
+            "name": "Get Cart",
+            "request": {
+              "url": {
+                "path": [
+                  "cart"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "bdab4b68-bbaf-4f72-85fa-9dcd2f3b8b0b",
+            "name": "Add Cart Item",
+            "request": {
+              "url": {
+                "path": [
+                  "cart",
+                  "items"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": 1,\n  \"quantity\": 2,\n  \"scheduleAt\": null\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "60227993-db97-4fca-98fb-c6fcde2c2eff",
+            "name": "Update Cart Item",
+            "request": {
+              "url": {
+                "path": [
+                  "cart",
+                  "items",
+                  "{{productId}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "PATCH",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"quantity\": 3\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "860413df-fe94-473c-a870-ddfb14011ca2",
+            "name": "Delete Cart Item",
+            "request": {
+              "url": {
+                "path": [
+                  "cart",
+                  "items",
+                  "{{productId}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "DELETE"
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "6be3d16c-02e7-40b2-a576-d1a6292a0bd6",
+        "name": "Orders",
+        "item": [
+          {
+            "id": "f8b3c0c1-a2da-4057-83f8-eeaa08a74273",
+            "name": "Create Order",
+            "request": {
+              "url": {
+                "path": [
+                  "orders"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"userId\": {{userId}},\n  \"items\": [ { \"productId\": 1, \"quantity\": 2 } ],\n  \"scheduleAt\": null\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "cc36d6c7-4cf4-48f1-8196-44a051b9373f",
+            "name": "List Orders",
+            "request": {
+              "url": {
+                "path": [
+                  "orders"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "d87ea7c4-5eff-4096-83de-1f88f33aa401",
+            "name": "Get Order",
+            "request": {
+              "url": {
+                "path": [
+                  "orders",
+                  "{{orderId}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "7bd72dc1-2137-4579-8777-def277f26b82",
+        "name": "Profile",
+        "item": [
+          {
+            "id": "c7fa4f85-87be-4fbc-a13d-51b318031700",
+            "name": "Get Profile",
+            "request": {
+              "url": {
+                "path": [
+                  "profile"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "79d7f3c8-5f31-4144-8266-3c49d24465f0",
+            "name": "Update Profile",
+            "request": {
+              "url": {
+                "path": [
+                  "profile"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"New Name\",\n  \"email\": \"me@example.com\"\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "a47fb9fa-1fde-46d1-ab19-b9db47ba38aa",
+        "name": "Addresses",
+        "item": [
+          {
+            "id": "11f91aa5-9061-49c1-9fb2-38e2939fad53",
+            "name": "List Addresses",
+            "request": {
+              "url": {
+                "path": [
+                  "addresses"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "be168a1e-b789-423a-a678-2f25328ac8c7",
+            "name": "Create Address",
+            "request": {
+              "url": {
+                "path": [
+                  "addresses"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"line1\": \"123 Main St\",\n  \"city\": \"Hyderabad\",\n  \"postalCode\": \"500001\"\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "4ad27e35-1bab-46b6-8486-82b58dd760f4",
+            "name": "Update Address",
+            "request": {
+              "url": {
+                "path": [
+                  "addresses",
+                  "{{addressId}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"line1\": \"321 New St\"\n}"
+              }
+            },
+            "response": [],
+            "event": []
+          },
+          {
+            "id": "6d1a526f-2320-4ab6-8ed0-123739fe8889",
+            "name": "Delete Address",
+            "request": {
+              "url": {
+                "path": [
+                  "addresses",
+                  "{{addressId}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt}}"
+                }
+              ],
+              "method": "DELETE"
+            },
+            "response": [],
+            "event": []
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "hyderabad-backend-collection",
+      "name": "Hyderabad Backend API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Collection for Hyderabad marketplace backend (dev). Import into Postman.",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_at": "2025-12-08T00:00:00.000Z",
+      "postman_exported_using": "Postman/10"
+    },
+    "id": "hyderabad-backend-env",
+    "name": "Hyderabad Backend (local)",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:8080",
+        "key": "baseUrl"
+      },
+      {
+        "type": "any",
+        "value": "dev",
+        "key": "dev_user"
+      },
+      {
+        "type": "any",
+        "value": "devpass",
+        "key": "dev_pass"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "jwt"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "userId"
+      },
+      {
+        "type": "any",
+        "value": "1",
+        "key": "categoryId"
+      },
+      {
+        "type": "any",
+        "value": "1",
+        "key": "productId"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "orderId"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "addressId"
+      }
+    ]
+  },
+  "globals": {
+    "id": "911f4b62-ec2d-486d-941c-7808a93a7cec",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 1,
+        "pending": 0,
+        "failed": 1
+      },
+      "tests": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 0,
+      "responseMin": 0,
+      "responseMax": 0,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1765187894722,
+      "completed": 1765187894806
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 22,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "39b2ff03-6460-4d3f-ade7-8f5fedf2140e",
+          "httpRequestId": "7b48073a-a1c5-4d0f-9d65-e265c1aa4e77"
+        },
+        "item": {
+          "id": "f62dc670-c573-4bf7-801a-278503615536",
+          "name": "Login - Password",
+          "request": {
+            "url": {
+              "path": [
+                "auth",
+                "login",
+                "password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"password\": \"secret\"\n}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4b6b9d4f-3c3e-4403-b8f9-20405d01c62d",
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var data = pm.response.json();",
+                  "  pm.environment.set('jwt', data.accessToken);",
+                  "  pm.environment.set('userId', data.userId);",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "8080",
+            "path": [
+              "auth",
+              "login",
+              "password"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.24.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "bb30ab0a-adb6-4d4f-8f08-953658a4e59f",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8080",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"password\": \"secret\"\n}"
+          }
+        },
+        "id": "f62dc670-c573-4bf7-801a-278503615536",
+        "requestError": {
+          "code": "ERR_INVALID_IP_ADDRESS"
+        }
+      }
+    ],
+    "transfers": {
+      "responseTotal": 0
+    },
+    "failures": [
+      {
+        "error": {
+          "code": "ERR_INVALID_IP_ADDRESS",
+          "name": "TypeError",
+          "message": "Invalid IP address: undefined",
+          "stack": "TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined\n    at emitLookup (node:net:1495:17)\n    at C:\\Users\\rohit\\New folder (3)\\hyderabad-backend\\postman\\node_modules\\postman-runtime\\lib\\requester\\core.js:287:13\n    at Socket.done (C:\\Users\\rohit\\New folder (3)\\hyderabad-backend\\postman\\node_modules\\postman-runtime\\lib\\requester\\core.js:236:21)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1622:10)",
+          "checksum": "9ebe1b4dd902cdc97b93b64e50641d1a",
+          "id": "fb8a2e27-9050-41b8-949b-51501a05e7f9",
+          "timestamp": 1765187894794,
+          "stacktrace": [
+            {
+              "fileName": "node:net",
+              "lineNumber": 1495,
+              "functionName": "emitLookup",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 17,
+              "native": false
+            },
+            {
+              "fileName": "3)\\hyderabad-backend\\postman\\node_modules\\postman-runtime\\lib\\requester\\core.js",
+              "lineNumber": 287,
+              "functionName": "C:\\Users\\rohit\\New folder",
+              "typeName": "Object",
+              "methodName": null,
+              "columnNumber": 13,
+              "native": false
+            },
+            {
+              "fileName": "3)\\hyderabad-backend\\postman\\node_modules\\postman-runtime\\lib\\requester\\core.js",
+              "lineNumber": 236,
+              "functionName": "Socket.done (C:\\Users\\rohit\\New folder",
+              "typeName": "Socket",
+              "methodName": "done (C:\\Users\\rohit\\New folder",
+              "columnNumber": 21,
+              "native": false
+            },
+            {
+              "fileName": "node:events",
+              "lineNumber": 632,
+              "functionName": "Object.onceWrapper",
+              "typeName": "Object",
+              "methodName": "onceWrapper",
+              "columnNumber": 28,
+              "native": false
+            },
+            {
+              "fileName": "node:events",
+              "lineNumber": 518,
+              "functionName": "Socket.emit",
+              "typeName": "Socket",
+              "methodName": "emit",
+              "columnNumber": 28,
+              "native": false
+            },
+            {
+              "fileName": "node:net",
+              "lineNumber": 1622,
+              "functionName": "TCPConnectWrap.afterConnect [as oncomplete]",
+              "typeName": "TCPConnectWrap",
+              "methodName": "afterConnect [as oncomplete]",
+              "columnNumber": 10,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "f62dc670-c573-4bf7-801a-278503615536",
+          "name": "Login - Password",
+          "request": {
+            "url": {
+              "path": [
+                "auth",
+                "login",
+                "password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"password\": \"secret\"\n}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4b6b9d4f-3c3e-4403-b8f9-20405d01c62d",
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var data = pm.response.json();",
+                  "  pm.environment.set('jwt', data.accessToken);",
+                  "  pm.environment.set('userId', data.userId);",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        "parent": {
+          "id": "d3266333-8893-4ab3-a1ad-04db0e1c63be",
+          "name": "Auth",
+          "item": [
+            {
+              "id": "f62dc670-c573-4bf7-801a-278503615536",
+              "name": "Login - Password",
+              "request": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "login",
+                    "password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"password\": \"secret\"\n}"
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "4b6b9d4f-3c3e-4403-b8f9-20405d01c62d",
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 200) {",
+                      "  var data = pm.response.json();",
+                      "  pm.environment.set('jwt', data.accessToken);",
+                      "  pm.environment.set('userId', data.userId);",
+                      "}",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "9a34a926-ea49-458e-bd22-0b7c5739b1a4",
+              "name": "OTP - Request",
+              "request": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "otp",
+                    "request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phoneNumber\": \"9999999999\"\n}"
+                }
+              },
+              "response": [],
+              "event": []
+            },
+            {
+              "id": "b57f1a37-35de-4092-b547-d9901e299ffd",
+              "name": "OTP - Verify",
+              "request": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "otp",
+                    "verify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"otp\": \"<paste-otp-here>\"\n}"
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "f1a6ed13-bde4-48e3-aba4-ef3f75a38aab",
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 200) {",
+                      "  var data = pm.response.json();",
+                      "  pm.environment.set('jwt', data.accessToken);",
+                      "  pm.environment.set('userId', data.userId);",
+                      "}",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "a5bbc086-0bde-4d21-acb8-daca98a64716",
+              "name": "Register Shop",
+              "request": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register-shop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phoneNumber\": \"9999990000\",\n  \"name\": \"Acme\",\n  \"email\": \"seller@example.com\",\n  \"businessName\": \"Acme Supplies\",\n  \"password\": \"sellerpass\"\n}"
+                }
+              },
+              "response": [],
+              "event": []
+            },
+            {
+              "id": "d73b2d09-d236-416a-9757-5be107da27e2",
+              "name": "Me (Get current user)",
+              "request": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{jwt}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": []
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 22,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "39b2ff03-6460-4d3f-ade7-8f5fedf2140e",
+          "httpRequestId": "7b48073a-a1c5-4d0f-9d65-e265c1aa4e77"
+        }
+      }
+    ],
+    "error": null
+  }
+}

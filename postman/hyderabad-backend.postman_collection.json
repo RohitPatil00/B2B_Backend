@@ -1,0 +1,141 @@
+{
+  "info": {
+    "name": "Hyderabad Backend API",
+    "_postman_id": "hyderabad-backend-collection",
+    "description": "Collection for Hyderabad marketplace backend (dev). Import into Postman.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login - Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"password\": \"secret\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/login/password", "host": ["{{baseUrl}}"], "path": ["auth","login","password"] }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "if (pm.response.code === 200) {",
+                "  var data = pm.response.json();",
+                "  pm.environment.set('jwt', data.accessToken);",
+                "  pm.environment.set('userId', data.userId);",
+                "}",
+                ""
+              ]
+            }
+          }]
+        },
+        {
+          "name": "OTP - Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"phoneNumber\": \"9999999999\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/otp/request", "host": ["{{baseUrl}}"], "path": ["auth","otp","request"] }
+          }
+        },
+        {
+          "name": "OTP - Verify",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"phoneNumber\": \"9999999999\",\n  \"otp\": \"<paste-otp-here>\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/otp/verify", "host": ["{{baseUrl}}"], "path": ["auth","otp","verify"] }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "if (pm.response.code === 200) {",
+                "  var data = pm.response.json();",
+                "  pm.environment.set('jwt', data.accessToken);",
+                "  pm.environment.set('userId', data.userId);",
+                "}",
+                ""
+              ]
+            }
+          }]
+        },
+        {
+          "name": "Register Shop",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"phoneNumber\": \"9999990000\",\n  \"name\": \"Acme\",\n  \"email\": \"seller@example.com\",\n  \"businessName\": \"Acme Supplies\",\n  \"password\": \"sellerpass\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/register-shop", "host": ["{{baseUrl}}"], "path": ["auth","register-shop"] }
+          }
+        },
+        {
+          "name": "Me (Get current user)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwt}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth","me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/catalog/categories", "host": ["{{baseUrl}}"], "path": ["catalog","categories"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] }
+        },
+        {
+          "name": "Get Subcategories",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/categories/{{categoryId}}/subcategories", "host": ["{{baseUrl}}"], "path": ["categories","{{categoryId}}","subcategories"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        { "name": "List Products", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/catalog/products", "host": ["{{baseUrl}}"], "path": ["catalog","products"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } },
+        { "name": "Get Product", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/catalog/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["catalog","products","{{productId}}"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        { "name": "Get Cart", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } },
+        { "name": "Add Cart Item", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" }], "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"quantity\": 2,\n  \"scheduleAt\": null\n}" }, "url": { "raw": "{{baseUrl}}/cart/items", "host": ["{{baseUrl}}"], "path": ["cart","items"] } } },
+        { "name": "Update Cart Item", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" }], "body": { "mode": "raw", "raw": "{\n  \"quantity\": 3\n}" }, "url": { "raw": "{{baseUrl}}/cart/items/{{productId}}", "host": ["{{baseUrl}}"], "path": ["cart","items","{{productId}}"] } } },
+        { "name": "Delete Cart Item", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/cart/items/{{productId}}", "host": ["{{baseUrl}}"], "path": ["cart","items","{{productId}}"] } } }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        { "name": "Create Order", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" }], "body": { "mode": "raw", "raw": "{\n  \"userId\": {{userId}},\n  \"items\": [ { \"productId\": 1, \"quantity\": 2 } ],\n  \"scheduleAt\": null\n}" }, "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] } } },
+        { "name": "List Orders", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } },
+        { "name": "Get Order", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["orders","{{orderId}}"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        { "name": "Get Profile", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/profile", "host": ["{{baseUrl}}"], "path": ["profile"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } },
+        { "name": "Update Profile", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"New Name\",\n  \"email\": \"me@example.com\"\n}" }, "url": { "raw": "{{baseUrl}}/profile", "host": ["{{baseUrl}}"], "path": ["profile"] } } }
+      ]
+    },
+    {
+      "name": "Addresses",
+      "item": [
+        { "name": "List Addresses", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/addresses", "host": ["{{baseUrl}}"], "path": ["addresses"] }, "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }] } },
+        { "name": "Create Address", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" }], "body": { "mode": "raw", "raw": "{\n  \"line1\": \"123 Main St\",\n  \"city\": \"Hyderabad\",\n  \"postalCode\": \"500001\"\n}" }, "url": { "raw": "{{baseUrl}}/addresses", "host": ["{{baseUrl}}"], "path": ["addresses"] } } },
+        { "name": "Update Address", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" }], "body": { "mode": "raw", "raw": "{\n  \"line1\": \"321 New St\"\n}" }, "url": { "raw": "{{baseUrl}}/addresses/{{addressId}}", "host": ["{{baseUrl}}"], "path": ["addresses","{{addressId}}"] } } },
+        { "name": "Delete Address", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/addresses/{{addressId}}", "host": ["{{baseUrl}}"], "path": ["addresses","{{addressId}}"] } } }
+      ]
+    }
+  ]
+}
